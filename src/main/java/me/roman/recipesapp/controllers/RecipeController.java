@@ -1,6 +1,5 @@
 package me.roman.recipesapp.controllers;
 
-import me.roman.recipesapp.model.Ingredient;
 import me.roman.recipesapp.model.Recipe;
 import me.roman.recipesapp.service.RecipeService;
 import org.springframework.http.ResponseEntity;
@@ -20,11 +19,6 @@ public class RecipeController {
     @PostMapping
     public ResponseEntity<Recipe> save(@RequestBody Recipe recipe) {
         return ResponseEntity.ok(recipeService.save(recipe));
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<Recipe> getById(@PathVariable long id) {
-        return ResponseEntity.of(recipeService.getById(id));
     }
 
     @GetMapping("/{id}")

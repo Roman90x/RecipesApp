@@ -27,7 +27,7 @@ public class IngredientServiceImpl implements IngredientService{
     }
 
     @Override
-    public Optional<Ingredient> getById(long id) {
+    public Optional<Ingredient> getById(Long id) {
         return Optional.ofNullable(ingredients.get(id));
     }
 
