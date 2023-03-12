@@ -1,14 +1,16 @@
-package me.roman.recipesapp.service;
+package me.roman.recipesapp.service.impl;
 
 import me.roman.recipesapp.exception.ValidationException;
 import me.roman.recipesapp.model.Ingredient;
+import me.roman.recipesapp.service.IngredientService;
+import me.roman.recipesapp.service.ValidationService;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 @Service
-public class IngredientServiceImpl implements IngredientService{
+public class IngredientServiceImpl implements IngredientService {
 
     private static long idCounter = 1;
     private final Map<Long, Ingredient> ingredients = new HashMap<>();

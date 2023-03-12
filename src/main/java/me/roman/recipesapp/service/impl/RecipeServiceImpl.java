@@ -1,7 +1,9 @@
-package me.roman.recipesapp.service;
+package me.roman.recipesapp.service.impl;
 
 import me.roman.recipesapp.exception.ValidationException;
 import me.roman.recipesapp.model.Recipe;
+import me.roman.recipesapp.service.RecipeService;
+import me.roman.recipesapp.service.ValidationService;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
