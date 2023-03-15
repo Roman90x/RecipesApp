@@ -3,7 +3,6 @@ package me.roman.recipesapp.controllers;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import me.roman.recipesapp.model.Ingredient;
 import me.roman.recipesapp.service.IngredientService;
 import me.roman.recipesapp.service.RecipeService;
 import org.springframework.core.io.InputStreamResource;
@@ -53,6 +52,23 @@ public class FileController {
                     .contentType(MediaType.APPLICATION_OCTET_STREAM)
                     .contentLength(ingredientFile.length())
                     .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + ingredientFile.getName())
+                    .body(resource);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return ResponseEntity.noContent().build();
+        }
+    }
+
+    @Operation(summary = "Выгрузка файла рецептов в формате txt")
+    @GetMapping("/recipe/export/txt")
+    public ResponseEntity<InputStreamResource> downloadRecipesTxtFile() {
+        try {
+            File recipeFile = recipeService.editRecipeTxt();
+            InputStreamResource resource = new InputStreamResource(new FileInputStream(recipeFile));
+            return ResponseEntity.ok()
+                    .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                    .contentLength(recipeFile.length())
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + recipeFile.getName())
                     .body(resource);
         } catch (IOException e) {
             e.printStackTrace();

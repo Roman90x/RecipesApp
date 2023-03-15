@@ -1,14 +1,21 @@
 package me.roman.recipesapp.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.*;
 
-import java.util.Objects;
 
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode
 @AllArgsConstructor
+@NoArgsConstructor
 public class Ingredient {
     private String name;
     private int count;
     private String size;
+
+    @Override
+    public String toString() {
+        return name + " - " + count + size;
+    }
+
 }

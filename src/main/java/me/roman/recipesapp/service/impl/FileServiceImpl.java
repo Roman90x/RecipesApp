@@ -55,7 +55,7 @@ public class FileServiceImpl {
                 InputStream is = file.getInputStream();
                 OutputStream os = Files.newOutputStream(filePath, CREATE_NEW);
                 BufferedInputStream bis = new BufferedInputStream(is, 1024);
-                BufferedOutputStream bos = new BufferedOutputStream(os, 1024);
+                BufferedOutputStream bos = new BufferedOutputStream(os, 1024)
         ) {
             bis.transferTo(bos);
         }
@@ -64,5 +64,10 @@ public class FileServiceImpl {
     private void createNewFile(Path path) throws IOException {
         Files.deleteIfExists(path);
         Files.createFile(path);
+    }
+
+    public Path saveToFile(String content, Path path) throws IOException {
+        createNewFile(path);
+        return Files.writeString(path, content);
     }
 }
