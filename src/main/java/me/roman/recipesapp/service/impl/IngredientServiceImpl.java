@@ -8,8 +8,11 @@ import me.roman.recipesapp.service.IngredientService;
 import me.roman.recipesapp.service.ValidationService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.PostConstruct;
+import java.io.File;
+import java.io.IOException;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
@@ -22,7 +25,7 @@ public class IngredientServiceImpl implements IngredientService {
     private static long idCounter = 1;
     private Map<Long, Ingredient> ingredients = new HashMap<>();
     private final ValidationService validationService;
-    private final FileService fileService;
+    private final FileServiceImpl fileServiceImpl;
 
     @Value("${path.to.ingredients.file}")
     private String ingredientsFilePath;
@@ -37,7 +40,7 @@ public class IngredientServiceImpl implements IngredientService {
             throw new ValidationException(ingredient.toString());
         }
         ingredients.put(idCounter++, ingredient);
-        fileService.saveMapToFile(ingredients, ingredientPath);
+        fileServiceImpl.saveMapToFile(ingredients, ingredientPath);
         return ingredient;
     }
 
@@ -52,14 +55,14 @@ public class IngredientServiceImpl implements IngredientService {
             throw new ValidationException(ingredient.toString());
         }
         ingredients.replace(id, ingredient);
-        fileService.saveMapToFile(ingredients, ingredientPath);
+        fileServiceImpl.saveMapToFile(ingredients, ingredientPath);
         return ingredient;
     }
 
     @Override
     public Ingredient delete(Long id) {
         Ingredient ingredient = ingredients.remove(id);
-        fileService.saveMapToFile(ingredients, ingredientPath);
+        fileServiceImpl.saveMapToFile(ingredients, ingredientPath);
         return ingredient;
     }
 
@@ -68,10 +71,22 @@ public class IngredientServiceImpl implements IngredientService {
         return ingredients;
     }
 
+    @Override
+    public File readFile() {
+        return ingredientPath.toFile();
+    }
+
+    @Override
+    public void uploadFile(MultipartFile file) throws IOException {
+        fileServiceImpl.uploadFile(file, ingredientPath);
+        ingredients = fileServiceImpl.readMapFromFile(ingredientPath, new TypeReference<>() {
+        });
+    }
+
     @PostConstruct
     private void init() {
         ingredientPath = Path.of(ingredientsFilePath, ingredientsFileName);
-        ingredients = fileService.readMapFromFile(ingredientPath, new TypeReference<HashMap<Long, Ingredient>>() {
+        ingredients = fileServiceImpl.readMapFromFile(ingredientPath, new TypeReference<>() {
         });
     }
 }
