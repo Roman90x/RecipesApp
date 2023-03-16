@@ -1,15 +1,21 @@
 package me.roman.recipesapp.controllers;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class FirstController {
+@Tag(name = "Тестовый контроллер")
+public class TestController {
 
+    @Operation(summary = "Проверка запуска приложения")
     @GetMapping
     public String runApplication() {
         return "Приложение запущено";
     }
+
+    @Operation(summary = "Получение информации о приложении")
     @GetMapping("/info")
     public String info() {
         return "Имя ученика: Селин Роман </br>" +
